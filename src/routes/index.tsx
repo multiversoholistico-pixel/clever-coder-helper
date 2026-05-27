@@ -5,8 +5,10 @@ import marcioFoto from "@/assets/marcio-foto.png";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Sinfonia dos Números — Marcio Ribeiro" },
-      { name: "description", content: "Estudo numerológico — Marcio Ribeiro, Multiverso Holístico." },
+      { title: "Numeria AI — A evolução da Numerologia Pitagórica" },
+      { name: "description", content: "Numeria AI — a evolução da Numerologia Pitagórica. Estudo numerológico inteligente por Marcio Ribeiro." },
+      { property: "og:title", content: "Numeria AI — A evolução da Numerologia Pitagórica" },
+      { property: "og:description", content: "Numeria AI — a evolução da Numerologia Pitagórica." },
     ],
   }),
   component: Index,
@@ -21,11 +23,11 @@ function Index() {
           alt="Marcio Ribeiro — Multiverso Holístico"
           className="h-40 w-40 rounded-full object-cover shadow-lg sm:h-52 sm:w-52"
         />
-        <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">
-          Marcio Ribeiro
+        <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">
+          Numeria <span className="text-primary">AI</span>
         </h1>
-        <p className="text-lg text-muted-foreground">
-          Multiverso Holístico — Terapias | Cursos | Workshops
+        <p className="text-lg italic text-muted-foreground">
+          A evolução da Numerologia Pitagórica
         </p>
       </header>
 
@@ -36,12 +38,13 @@ function Index() {
           className="h-64 w-auto object-contain sm:h-80"
         />
         <p className="max-w-2xl text-base text-muted-foreground">
-          Bem-vindo ao Sinfonia dos Números — estudo numerológico personalizado.
+          Uma experiência numerológica personalizada, inteligente e terapêutica —
+          desenvolvida por <strong>Marcio Ribeiro</strong>, Multiverso Holístico.
         </p>
       </section>
 
       <footer className="border-t py-6 text-center text-xs text-muted-foreground">
-        © {new Date().getFullYear()} Marcio Ribeiro — Multiverso Holístico. Todos os direitos reservados.
+        © {new Date().getFullYear()} Numeria AI — Marcio Ribeiro, Multiverso Holístico. Todos os direitos reservados.
         <br />
         Imagens e marca de uso exclusivo, protegidas por direitos autorais.
       </footer>
