@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import logoMarcio from "@/assets/logo-marcio.jpg";
+import logoNumeria from "@/assets/logo-numeria.png";
 import marcioFoto from "@/assets/marcio-foto.png";
 
 export const Route = createFileRoute("/")({
@@ -19,9 +19,9 @@ function Index() {
     <div className="min-h-screen bg-background text-foreground">
       <header className="mx-auto flex max-w-5xl flex-col items-center gap-6 px-6 pt-16 pb-10 text-center">
         <img
-          src={logoMarcio}
-          alt="Marcio Ribeiro — Multiverso Holístico"
-          className="h-40 w-40 rounded-full object-cover shadow-lg sm:h-52 sm:w-52"
+          src={logoNumeria}
+          alt="Numeria AI — A evolução da Numerologia Pitagórica"
+          className="h-48 w-48 object-contain sm:h-64 sm:w-64"
         />
         <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">
           Numeria <span className="text-primary">AI</span>
@@ -31,22 +31,26 @@ function Index() {
         </p>
       </header>
 
-      <section className="mx-auto flex max-w-5xl flex-col items-center gap-6 px-6 pb-16 text-center">
-        <img
-          src={marcioFoto}
-          alt="Marcio Ribeiro"
-          className="h-64 w-auto object-contain sm:h-80"
-        />
-        <p className="max-w-2xl text-base text-muted-foreground">
-          Uma experiência numerológica personalizada, inteligente e terapêutica —
-          desenvolvida por <strong>Marcio Ribeiro</strong>, Multiverso Holístico.
+      <section className="mx-auto flex max-w-2xl flex-col items-center gap-4 px-6 pb-16 text-center">
+        <p className="text-base text-muted-foreground">
+          Uma experiência numerológica personalizada, inteligente e terapêutica.
         </p>
       </section>
 
-      <footer className="border-t py-6 text-center text-xs text-muted-foreground">
-        © {new Date().getFullYear()} Numeria AI — Marcio Ribeiro, Multiverso Holístico. Todos os direitos reservados.
-        <br />
-        Imagens e marca de uso exclusivo, protegidas por direitos autorais.
+      <footer className="border-t py-8 text-center text-xs text-muted-foreground">
+        <div className="mx-auto flex flex-col items-center gap-3">
+          <img
+            src={marcioFoto}
+            alt="Marcio Ribeiro"
+            className="h-16 w-16 rounded-full object-cover opacity-80"
+          />
+          <p>
+            Desenvolvido por <strong>Marcio Ribeiro</strong> — Multiverso Holístico
+          </p>
+          <p>
+            © {new Date().getFullYear()} Numeria AI. Todos os direitos reservados.
+          </p>
+        </div>
       </footer>
     </div>
   );
