@@ -14,7 +14,81 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      contatos: {
+        Row: {
+          created_at: string
+          data_nascimento: string
+          email: string | null
+          genero: string
+          id: string
+          observacao: string | null
+          primeiro_nome: string
+          segundo_nome: string | null
+          sobrenome: string
+          telefone: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          data_nascimento: string
+          email?: string | null
+          genero?: string
+          id?: string
+          observacao?: string | null
+          primeiro_nome: string
+          segundo_nome?: string | null
+          sobrenome: string
+          telefone?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          data_nascimento?: string
+          email?: string | null
+          genero?: string
+          id?: string
+          observacao?: string | null
+          primeiro_nome?: string
+          segundo_nome?: string | null
+          sobrenome?: string
+          telefone?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      conteudos: {
+        Row: {
+          id: string
+          numero_tipo: number
+          texto_feminino: string | null
+          texto_masculino: string | null
+          texto_original: string
+          texto_social: string | null
+          tipo: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          numero_tipo: number
+          texto_feminino?: string | null
+          texto_masculino?: string | null
+          texto_original: string
+          texto_social?: string | null
+          tipo: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          numero_tipo?: number
+          texto_feminino?: string | null
+          texto_masculino?: string | null
+          texto_original?: string
+          texto_social?: string | null
+          tipo?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
