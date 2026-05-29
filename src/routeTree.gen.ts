@@ -9,38 +9,103 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as AppRouteImport } from './routes/_app'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AppContatosIndexRouteImport } from './routes/_app.contatos.index'
+import { Route as AppContatosNovoRouteImport } from './routes/_app.contatos.novo'
+import { Route as AppContatosIdRouteImport } from './routes/_app.contatos.$id'
 
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppRoute = AppRouteImport.update({
+  id: '/_app',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AppContatosIndexRoute = AppContatosIndexRouteImport.update({
+  id: '/contatos/',
+  path: '/contatos/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppContatosNovoRoute = AppContatosNovoRouteImport.update({
+  id: '/contatos/novo',
+  path: '/contatos/novo',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppContatosIdRoute = AppContatosIdRouteImport.update({
+  id: '/contatos/$id',
+  path: '/contatos/$id',
+  getParentRoute: () => AppRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/login': typeof LoginRoute
+  '/contatos/$id': typeof AppContatosIdRoute
+  '/contatos/novo': typeof AppContatosNovoRoute
+  '/contatos/': typeof AppContatosIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/login': typeof LoginRoute
+  '/contatos/$id': typeof AppContatosIdRoute
+  '/contatos/novo': typeof AppContatosNovoRoute
+  '/contatos': typeof AppContatosIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_app': typeof AppRouteWithChildren
+  '/login': typeof LoginRoute
+  '/_app/contatos/$id': typeof AppContatosIdRoute
+  '/_app/contatos/novo': typeof AppContatosNovoRoute
+  '/_app/contatos/': typeof AppContatosIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/login' | '/contatos/$id' | '/contatos/novo' | '/contatos/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/login' | '/contatos/$id' | '/contatos/novo' | '/contatos'
+  id:
+    | '__root__'
+    | '/'
+    | '/_app'
+    | '/login'
+    | '/_app/contatos/$id'
+    | '/_app/contatos/novo'
+    | '/_app/contatos/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AppRoute: typeof AppRouteWithChildren
+  LoginRoute: typeof LoginRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_app': {
+      id: '/_app'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AppRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,22 +113,49 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_app/contatos/': {
+      id: '/_app/contatos/'
+      path: '/contatos'
+      fullPath: '/contatos/'
+      preLoaderRoute: typeof AppContatosIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/contatos/novo': {
+      id: '/_app/contatos/novo'
+      path: '/contatos/novo'
+      fullPath: '/contatos/novo'
+      preLoaderRoute: typeof AppContatosNovoRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/contatos/$id': {
+      id: '/_app/contatos/$id'
+      path: '/contatos/$id'
+      fullPath: '/contatos/$id'
+      preLoaderRoute: typeof AppContatosIdRouteImport
+      parentRoute: typeof AppRoute
+    }
   }
 }
 
+interface AppRouteChildren {
+  AppContatosIdRoute: typeof AppContatosIdRoute
+  AppContatosNovoRoute: typeof AppContatosNovoRoute
+  AppContatosIndexRoute: typeof AppContatosIndexRoute
+}
+
+const AppRouteChildren: AppRouteChildren = {
+  AppContatosIdRoute: AppContatosIdRoute,
+  AppContatosNovoRoute: AppContatosNovoRoute,
+  AppContatosIndexRoute: AppContatosIndexRoute,
+}
+
+const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AppRoute: AppRouteWithChildren,
+  LoginRoute: LoginRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
