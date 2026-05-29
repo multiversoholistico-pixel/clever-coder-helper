@@ -1,4 +1,5 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { Button } from "@/components/ui/button";
 import logoNumeria from "@/assets/logo-numeria.png";
 import marcioFoto from "@/assets/marcio-foto.png";
 
