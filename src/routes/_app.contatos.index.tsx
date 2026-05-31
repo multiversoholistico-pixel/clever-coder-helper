@@ -81,8 +81,8 @@ function ContatosList() {
                 </p>
               </div>
               <div className="flex gap-2 shrink-0">
-                <Button variant="outline" size="sm" disabled title="Em breve">
-                  <Calculator className="h-4 w-4" />
+                <Button size="sm" asChild title="Estudo numerológico">
+                  <Link to="/contatos/$id/estudo" params={{ id: c.id }}><Calculator className="h-4 w-4" /></Link>
                 </Button>
                 <Button variant="outline" size="sm" asChild>
                   <Link to="/contatos/$id" params={{ id: c.id }}><Pencil className="h-4 w-4" /></Link>
