@@ -32,10 +32,18 @@ function Index() {
         </p>
       </header>
 
-      <section className="mx-auto flex max-w-2xl flex-col items-center gap-4 px-6 pb-16 text-center">
+      <section className="mx-auto flex max-w-2xl flex-col items-center gap-6 px-6 pb-16 text-center">
         <p className="text-base text-muted-foreground">
           Uma experiência numerológica personalizada, inteligente e terapêutica.
         </p>
+        <div className="flex flex-col gap-3 sm:flex-row">
+          <Button asChild size="lg">
+            <Link to="/login">Entrar / Criar conta</Link>
+          </Button>
+          <Button asChild size="lg" variant="outline">
+            <Link to="/contatos">Meus contatos</Link>
+          </Button>
+        </div>
       </section>
 
       <footer className="border-t py-8 text-center text-xs text-muted-foreground">
