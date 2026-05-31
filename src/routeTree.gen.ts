@@ -15,6 +15,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppContatosIndexRouteImport } from './routes/_app.contatos.index'
 import { Route as AppContatosNovoRouteImport } from './routes/_app.contatos.novo'
 import { Route as AppContatosIdRouteImport } from './routes/_app.contatos.$id'
+import { Route as AppContatosIdEstudoRouteImport } from './routes/_app.contatos.$id.estudo'
 
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
@@ -45,35 +46,55 @@ const AppContatosIdRoute = AppContatosIdRouteImport.update({
   path: '/contatos/$id',
   getParentRoute: () => AppRoute,
 } as any)
+const AppContatosIdEstudoRoute = AppContatosIdEstudoRouteImport.update({
+  id: '/estudo',
+  path: '/estudo',
+  getParentRoute: () => AppContatosIdRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
-  '/contatos/$id': typeof AppContatosIdRoute
+  '/contatos/$id': typeof AppContatosIdRouteWithChildren
   '/contatos/novo': typeof AppContatosNovoRoute
   '/contatos/': typeof AppContatosIndexRoute
+  '/contatos/$id/estudo': typeof AppContatosIdEstudoRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
-  '/contatos/$id': typeof AppContatosIdRoute
+  '/contatos/$id': typeof AppContatosIdRouteWithChildren
   '/contatos/novo': typeof AppContatosNovoRoute
   '/contatos': typeof AppContatosIndexRoute
+  '/contatos/$id/estudo': typeof AppContatosIdEstudoRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_app': typeof AppRouteWithChildren
   '/login': typeof LoginRoute
-  '/_app/contatos/$id': typeof AppContatosIdRoute
+  '/_app/contatos/$id': typeof AppContatosIdRouteWithChildren
   '/_app/contatos/novo': typeof AppContatosNovoRoute
   '/_app/contatos/': typeof AppContatosIndexRoute
+  '/_app/contatos/$id/estudo': typeof AppContatosIdEstudoRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/login' | '/contatos/$id' | '/contatos/novo' | '/contatos/'
+  fullPaths:
+    | '/'
+    | '/login'
+    | '/contatos/$id'
+    | '/contatos/novo'
+    | '/contatos/'
+    | '/contatos/$id/estudo'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login' | '/contatos/$id' | '/contatos/novo' | '/contatos'
+  to:
+    | '/'
+    | '/login'
+    | '/contatos/$id'
+    | '/contatos/novo'
+    | '/contatos'
+    | '/contatos/$id/estudo'
   id:
     | '__root__'
     | '/'
@@ -82,6 +103,7 @@ export interface FileRouteTypes {
     | '/_app/contatos/$id'
     | '/_app/contatos/novo'
     | '/_app/contatos/'
+    | '/_app/contatos/$id/estudo'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -134,17 +156,36 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppContatosIdRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/contatos/$id/estudo': {
+      id: '/_app/contatos/$id/estudo'
+      path: '/estudo'
+      fullPath: '/contatos/$id/estudo'
+      preLoaderRoute: typeof AppContatosIdEstudoRouteImport
+      parentRoute: typeof AppContatosIdRoute
+    }
   }
 }
 
+interface AppContatosIdRouteChildren {
+  AppContatosIdEstudoRoute: typeof AppContatosIdEstudoRoute
+}
+
+const AppContatosIdRouteChildren: AppContatosIdRouteChildren = {
+  AppContatosIdEstudoRoute: AppContatosIdEstudoRoute,
+}
+
+const AppContatosIdRouteWithChildren = AppContatosIdRoute._addFileChildren(
+  AppContatosIdRouteChildren,
+)
+
 interface AppRouteChildren {
-  AppContatosIdRoute: typeof AppContatosIdRoute
+  AppContatosIdRoute: typeof AppContatosIdRouteWithChildren
   AppContatosNovoRoute: typeof AppContatosNovoRoute
   AppContatosIndexRoute: typeof AppContatosIndexRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
-  AppContatosIdRoute: AppContatosIdRoute,
+  AppContatosIdRoute: AppContatosIdRouteWithChildren,
   AppContatosNovoRoute: AppContatosNovoRoute,
   AppContatosIndexRoute: AppContatosIndexRoute,
 }
@@ -159,3 +200,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
