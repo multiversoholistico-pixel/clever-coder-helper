@@ -4,7 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import ContatoForm, { type ContatoFormValues } from "@/components/ContatoForm";
 import { toast } from "sonner";
 
-export const Route = createFileRoute("/_app/contatos/$id")({
+export const Route = createFileRoute("/_app/contatos/$id_")({
   head: () => ({ meta: [{ title: "Editar contato — Numeria AI" }] }),
   component: EditarContato,
 });
