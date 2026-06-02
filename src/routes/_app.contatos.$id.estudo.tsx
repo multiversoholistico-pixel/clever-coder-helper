@@ -58,12 +58,12 @@ function EstudoPage() {
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between print:hidden">
+      <div className="sticky top-0 z-20 -mx-2 px-2 py-2 bg-background/95 backdrop-blur border-b flex flex-wrap items-center justify-between gap-2 print:hidden">
         <Button variant="ghost" size="sm" asChild>
           <Link to="/contatos"><ArrowLeft className="h-4 w-4 mr-1" /> Voltar</Link>
         </Button>
-        <Button size="sm" onClick={() => window.print()}>
-          <Printer className="h-4 w-4 mr-1" /> Imprimir / PDF
+        <Button size="default" onClick={() => window.print()} className="shadow-md">
+          <Printer className="h-4 w-4 mr-2" /> Imprimir / Exportar PDF
         </Button>
       </div>
 
@@ -89,6 +89,12 @@ function EstudoPage() {
         <Pagina><MesesPessoais mapa={mapa} /></Pagina>
         <Pagina><Anjo mapa={mapa} /></Pagina>
       </article>
+
+      <div className="flex justify-center print:hidden">
+        <Button size="lg" onClick={() => window.print()} className="shadow-md">
+          <Printer className="h-4 w-4 mr-2" /> Imprimir / Exportar PDF
+        </Button>
+      </div>
 
       <style>{`
         @media print {
