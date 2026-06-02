@@ -90,6 +90,12 @@ function EstudoPage() {
         <Pagina><Anjo mapa={mapa} /></Pagina>
       </article>
 
+      <div className="flex justify-center print:hidden">
+        <Button size="lg" onClick={() => window.print()} className="shadow-md">
+          <Printer className="h-4 w-4 mr-2" /> Imprimir / Exportar PDF
+        </Button>
+      </div>
+
       <style>{`
         @media print {
           @page { size: A4; margin: 18mm; }
