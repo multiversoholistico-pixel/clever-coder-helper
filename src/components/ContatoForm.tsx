@@ -81,9 +81,12 @@ export default function ContatoForm({
       telefone: parsed.data.telefone || null,
       observacao: parsed.data.observacao || null,
     };
+    const { data: userData } = await supabase.auth.getUser();
+    const userId = userData.user?.id;
+    if (!userId) { setSaving(false); toast.error("Sessão expirada. Faça login novamente."); return; }
     const { error } = id
       ? await supabase.from("contatos").update(payload).eq("id", id)
-      : await supabase.from("contatos").insert(payload);
+      : await supabase.from("contatos").insert({ ...payload, user_id: userId });
     setSaving(false);
     if (error) toast.error(error.message);
     else {
