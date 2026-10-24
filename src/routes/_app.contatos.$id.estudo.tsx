@@ -1,3 +1,4 @@
+import { adaptarTexto, saudacao, type Perfil } from "@/lib/genero";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
@@ -8,7 +9,7 @@ import {
   TEXTO_ALMA, TEXTO_APARENCIA, TEXTO_DESTINO, TEXTO_LICAO, TEXTO_DIA,
   TEXTO_ANO, TEXTO_MES, TEXTO_DESAFIO, TEXTO_PINACULO, TEXTO_CICLO,
   TEXTO_AUSENCIA, TEXTO_EXCESSO, TEXTO_CARMICO, TEXTO_VOGAL, TEXTO_PLANO,
-  valoresLetras, txt, type MapaNumerologico,
+  valoresLetras, txt as txtBase, type MapaNumerologico,
 } from "@/lib/numerologia";
 import { toast } from "sonner";
 
@@ -19,7 +20,13 @@ type Contato = {
   sobrenome: string;
   data_nascimento: string;
   genero: string;
+  nome_social: string | null;
+  tratamento: string | null;
 };
+
+let perfilAtual: Perfil = { genero: "neutro", nome: "" };
+const ad = (s?: string) => adaptarTexto(s ?? "", perfilAtual);
+const txt = (d: Record<number, string>, n: number) => ad(txtBase(d, n));
 
 export const Route = createFileRoute("/_app/contatos/$id/estudo")({
   head: () => ({ meta: [{ title: "Estudo Numerológico — Numeria AI" }] }),
@@ -35,7 +42,7 @@ function EstudoPage() {
     (async () => {
       const { data, error } = await supabase
         .from("contatos")
-        .select("id, primeiro_nome, segundo_nome, sobrenome, data_nascimento, genero")
+        .select("id, primeiro_nome, segundo_nome, sobrenome, data_nascimento, genero, nome_social, tratamento")
         .eq("id", id).single();
       if (error) { toast.error(error.message); setLoading(false); return; }
       setContato(data as Contato);
@@ -54,6 +61,10 @@ function EstudoPage() {
   if (loading) return <p className="text-muted-foreground">Calculando mapa…</p>;
   if (!contato || !mapa) return <p>Contato não encontrado.</p>;
 
+  perfilAtual = {
+    genero: (["feminino", "masculino", "neutro"].includes(contato.genero) ? contato.genero : "neutro") as Perfil["genero"],
+    nome: contato.tratamento || contato.nome_social || contato.primeiro_nome,
+  };
   const dataFmt = new Date(contato.data_nascimento + "T00:00:00").toLocaleDateString("pt-BR");
 
   return (
@@ -148,7 +159,7 @@ function Secao({ titulo, numero, calculo, texto, intro }: { titulo: string; nume
           <p className="text-xs text-muted-foreground">{calculo}</p>
         </div>
       </div>
-      <p className="text-sm leading-relaxed">{texto}</p>
+      <p className="text-sm leading-relaxed"><strong>{saudacao(perfilAtual)},</strong> {texto.charAt(0).toLowerCase() + texto.slice(1)}</p>
     </>
   );
 }
@@ -308,9 +319,9 @@ function Ciclos({ mapa }: { mapa: MapaNumerologico }) {
       <H2>Ciclos de Vida</H2>
       <p className="text-sm text-muted-foreground italic mb-3">Formativo, Produtivo e Colheita.</p>
       <div className="space-y-4 text-sm">
-        <div><p className="font-medium">Formativo {mapa.ciclos.formativo.valor} — {mapa.ciclos.formativo.periodo}</p><p>{TEXTO_CICLO.formativo[mapa.ciclos.formativo.valor]}</p></div>
-        <div><p className="font-medium">Produtivo {mapa.ciclos.produtivo.valor} — {mapa.ciclos.produtivo.periodo}</p><p>{TEXTO_CICLO.produtivo[mapa.ciclos.produtivo.valor]}</p></div>
-        <div><p className="font-medium">Colheita {mapa.ciclos.colheita.valor} — {mapa.ciclos.colheita.periodo}</p><p>{TEXTO_CICLO.colheita[mapa.ciclos.colheita.valor]}</p></div>
+        <div><p className="font-medium">Formativo {mapa.ciclos.formativo.valor} — {mapa.ciclos.formativo.periodo}</p><p>{ad(TEXTO_CICLO.formativo[mapa.ciclos.formativo.valor])}</p></div>
+        <div><p className="font-medium">Produtivo {mapa.ciclos.produtivo.valor} — {mapa.ciclos.produtivo.periodo}</p><p>{ad(TEXTO_CICLO.produtivo[mapa.ciclos.produtivo.valor])}</p></div>
+        <div><p className="font-medium">Colheita {mapa.ciclos.colheita.valor} — {mapa.ciclos.colheita.periodo}</p><p>{ad(TEXTO_CICLO.colheita[mapa.ciclos.colheita.valor])}</p></div>
       </div>
     </>
   );
@@ -335,7 +346,7 @@ function PrimeiraVogalSec({ mapa }: { mapa: MapaNumerologico }) {
     <>
       <H2>Primeira Vogal — {mapa.pVogal || "—"}</H2>
       <p className="text-sm text-muted-foreground italic mb-3">Como reage instintivamente a estímulos externos.</p>
-      <p className="text-sm">{TEXTO_VOGAL[mapa.pVogal] ?? "Sem interpretação cadastrada."}</p>
+      <p className="text-sm">{ad(TEXTO_VOGAL[mapa.pVogal] ?? "Sem interpretação cadastrada.")}</p>
     </>
   );
 }
@@ -350,8 +361,8 @@ function PlanoTemperamento({ mapa }: { mapa: MapaNumerologico }) {
         <thead className="bg-muted"><tr><th className="border px-2 py-1">Físico</th><th className="border px-2 py-1">Mental</th><th className="border px-2 py-1">Emocional</th><th className="border px-2 py-1">Intuitivo</th></tr></thead>
         <tbody><tr><td className="border px-2 py-1 text-center">{mapa.plano.fisico}</td><td className="border px-2 py-1 text-center">{mapa.plano.mental}</td><td className="border px-2 py-1 text-center">{mapa.plano.emocional}</td><td className="border px-2 py-1 text-center">{mapa.plano.intuitivo}</td></tr></tbody>
       </table>
-      <p className="text-sm"><strong>Predominante — {labels[mapa.plano.predominante]}:</strong> {TEXTO_PLANO[mapa.plano.predominante]}</p>
-      <p className="text-sm mt-2"><strong>Secundário — {labels[mapa.plano.secundario]}:</strong> {TEXTO_PLANO[mapa.plano.secundario]}</p>
+      <p className="text-sm"><strong>Predominante — {labels[mapa.plano.predominante]}:</strong> {ad(TEXTO_PLANO[mapa.plano.predominante])}</p>
+      <p className="text-sm mt-2"><strong>Secundário — {labels[mapa.plano.secundario]}:</strong> {ad(TEXTO_PLANO[mapa.plano.secundario])}</p>
     </>
   );
 }
