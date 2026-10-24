@@ -79,7 +79,7 @@ function EstudoPage() {
       </div>
 
       <article className="mapa-impressao mx-auto max-w-[800px] bg-card text-card-foreground rounded-lg border print:border-0 print:rounded-none print:max-w-none">
-        <Capa nome={nomeCompleto} data={dataFmt} />
+        <Capa nome={contato.nome_social || nomeCompleto} data={dataFmt} />
         <Pagina><MapaResumido mapa={mapa} nome={nomeCompleto} /></Pagina>
         <Pagina><TrianguloDivino mapa={mapa} primeiroNome={contato.primeiro_nome} /></Pagina>
         <Pagina><Secao titulo="Alma (Idealidade)" numero={mapa.alma.final} calculo={`Vogais: total ${mapa.alma.total} → ${mapa.alma.passos.join(" → ")}`} texto={txt(TEXTO_ALMA, mapa.alma.final)} intro="O Número da Alma revela o desejo oculto, o que nos motiva e o EU que só você conhece." /></Pagina>
