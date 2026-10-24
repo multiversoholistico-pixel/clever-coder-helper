@@ -26,6 +26,8 @@ function EditarContato() {
         sobrenome: data.sobrenome ?? "",
         data_nascimento: data.data_nascimento ?? "",
         genero: data.genero ?? "feminino",
+        nome_social: data.nome_social ?? "",
+        tratamento: data.tratamento ?? "",
         email: data.email ?? "",
         telefone: data.telefone ?? "",
         observacao: data.observacao ?? "",

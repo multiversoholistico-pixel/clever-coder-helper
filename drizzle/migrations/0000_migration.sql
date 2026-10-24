@@ -1,0 +1,1 @@
+ALTER TABLE public.contatos ADD COLUMN IF NOT EXISTS nome_social text, ADD COLUMN IF NOT EXISTS tratamento text;

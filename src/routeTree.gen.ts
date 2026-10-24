@@ -9,26 +9,26 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as LoginRouteImport } from './routes/login'
-import { Route as AppRouteImport } from './routes/_app'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AppRouteImport } from './routes/_app'
+import { Route as LoginRouteImport } from './routes/login'
 import { Route as AppContatosIndexRouteImport } from './routes/_app.contatos.index'
-import { Route as AppContatosNovoRouteImport } from './routes/_app.contatos.novo'
 import { Route as AppContatosIdRouteImport } from './routes/_app.contatos.$id_'
+import { Route as AppContatosNovoRouteImport } from './routes/_app.contatos.novo'
 import { Route as AppContatosIdEstudoRouteImport } from './routes/_app.contatos.$id.estudo'
 
-const LoginRoute = LoginRouteImport.update({
-  id: '/login',
-  path: '/login',
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AppRoute = AppRouteImport.update({
   id: '/_app',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AppContatosIndexRoute = AppContatosIndexRouteImport.update({
@@ -36,14 +36,14 @@ const AppContatosIndexRoute = AppContatosIndexRouteImport.update({
   path: '/contatos/',
   getParentRoute: () => AppRoute,
 } as any)
-const AppContatosNovoRoute = AppContatosNovoRouteImport.update({
-  id: '/contatos/novo',
-  path: '/contatos/novo',
-  getParentRoute: () => AppRoute,
-} as any)
 const AppContatosIdRoute = AppContatosIdRouteImport.update({
   id: '/contatos/$id_',
   path: '/contatos/$id',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppContatosNovoRoute = AppContatosNovoRouteImport.update({
+  id: '/contatos/novo',
+  path: '/contatos/novo',
   getParentRoute: () => AppRoute,
 } as any)
 const AppContatosIdEstudoRoute = AppContatosIdEstudoRouteImport.update({
@@ -114,11 +114,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/login': {
-      id: '/login'
-      path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof LoginRouteImport
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_app': {
@@ -128,11 +128,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_app/contatos/': {
@@ -142,18 +142,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppContatosIndexRouteImport
       parentRoute: typeof AppRoute
     }
-    '/_app/contatos/novo': {
-      id: '/_app/contatos/novo'
-      path: '/contatos/novo'
-      fullPath: '/contatos/novo'
-      preLoaderRoute: typeof AppContatosNovoRouteImport
-      parentRoute: typeof AppRoute
-    }
     '/_app/contatos/$id_': {
       id: '/_app/contatos/$id_'
       path: '/contatos/$id'
       fullPath: '/contatos/$id'
       preLoaderRoute: typeof AppContatosIdRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/contatos/novo': {
+      id: '/_app/contatos/novo'
+      path: '/contatos/novo'
+      fullPath: '/contatos/novo'
+      preLoaderRoute: typeof AppContatosNovoRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/contatos/$id/estudo': {

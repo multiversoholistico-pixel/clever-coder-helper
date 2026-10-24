@@ -21,6 +21,8 @@ export type ContatoFormValues = {
   sobrenome: string;
   data_nascimento: string;
   genero: string;
+  nome_social: string;
+  tratamento: string;
   email: string;
   telefone: string;
   observacao: string;
@@ -32,6 +34,8 @@ const schema = z.object({
   sobrenome: z.string().trim().min(1, "Obrigatório").max(120),
   data_nascimento: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Data inválida"),
   genero: z.enum(["feminino", "masculino", "neutro"]),
+  nome_social: z.string().trim().max(120).optional(),
+  tratamento: z.string().trim().max(80).optional(),
   email: z.string().trim().email("Email inválido").max(255).optional().or(z.literal("")),
   telefone: z.string().trim().max(40).optional(),
   observacao: z.string().trim().max(1000).optional(),
@@ -43,6 +47,8 @@ const empty: ContatoFormValues = {
   sobrenome: "",
   data_nascimento: "",
   genero: "feminino",
+  nome_social: "",
+  tratamento: "",
   email: "",
   telefone: "",
   observacao: "",
@@ -77,6 +83,8 @@ export default function ContatoForm({
       sobrenome: parsed.data.sobrenome,
       data_nascimento: parsed.data.data_nascimento,
       genero: parsed.data.genero,
+      nome_social: parsed.data.nome_social || null,
+      tratamento: parsed.data.tratamento || null,
       email: parsed.data.email || null,
       telefone: parsed.data.telefone || null,
       observacao: parsed.data.observacao || null,
@@ -123,11 +131,22 @@ export default function ContatoForm({
             <Select value={values.genero} onValueChange={(v) => set("genero", v)}>
               <SelectTrigger><SelectValue /></SelectTrigger>
               <SelectContent>
-                <SelectItem value="feminino">Feminino</SelectItem>
-                <SelectItem value="masculino">Masculino</SelectItem>
-                <SelectItem value="neutro">Neutro / Outro</SelectItem>
+                <SelectItem value="feminino">Feminino (ela)</SelectItem>
+                <SelectItem value="masculino">Masculino (ele)</SelectItem>
+                <SelectItem value="neutro">Neutro / Outro (linguagem neutra)</SelectItem>
               </SelectContent>
             </Select>
+          </div>
+        </div>
+
+        <div className="grid gap-4 sm:grid-cols-2">
+          <div className="space-y-2">
+            <Label>Nome social</Label>
+            <Input value={values.nome_social} onChange={(e) => set("nome_social", e.target.value)} placeholder="Opcional" />
+          </div>
+          <div className="space-y-2">
+            <Label>Como deseja ser tratado(a)</Label>
+            <Input value={values.tratamento} onChange={(e) => set("tratamento", e.target.value)} placeholder="Ex.: Ana, Dr. João" />
           </div>
         </div>
 

@@ -21,11 +21,13 @@ export type Database = {
           email: string | null
           genero: string
           id: string
+          nome_social: string | null
           observacao: string | null
           primeiro_nome: string
           segundo_nome: string | null
           sobrenome: string
           telefone: string | null
+          tratamento: string | null
           updated_at: string
           user_id: string
         }
@@ -35,11 +37,13 @@ export type Database = {
           email?: string | null
           genero?: string
           id?: string
+          nome_social?: string | null
           observacao?: string | null
           primeiro_nome: string
           segundo_nome?: string | null
           sobrenome: string
           telefone?: string | null
+          tratamento?: string | null
           updated_at?: string
           user_id?: string
         }
@@ -49,11 +53,13 @@ export type Database = {
           email?: string | null
           genero?: string
           id?: string
+          nome_social?: string | null
           observacao?: string | null
           primeiro_nome?: string
           segundo_nome?: string | null
           sobrenome?: string
           telefone?: string | null
+          tratamento?: string | null
           updated_at?: string
           user_id?: string
         }
