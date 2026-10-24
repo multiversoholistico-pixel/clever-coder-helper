@@ -108,16 +108,33 @@ function EstudoPage() {
       </div>
 
       <style>{`
-        @media print {
-          @page { size: A4; margin: 18mm; }
-          body { background: white !important; }
-          .mapa-impressao { box-shadow: none !important; }
-        }
         .pagina-mapa { padding: 28px 32px; }
         .pagina-mapa + .pagina-mapa { border-top: 1px solid hsl(var(--border)); }
         @media print {
-          .pagina-mapa { page-break-after: always; padding: 0 0 24px 0; }
-          .pagina-mapa + .pagina-mapa { border-top: none; padding-top: 0; }
+          @page { size: A4; margin: 12mm; }
+          body { background: white !important; }
+          .mapa-impressao { box-shadow: none !important; }
+          .pagina-mapa { padding: 6px 0; page-break-inside: avoid; }
+          .pagina-mapa + .pagina-mapa { border-top: 1px solid #ddd; }
+          .pagina-capa { page-break-after: always; }
+          .pagina-mapa h2 { font-size: 15px !important; margin-bottom: 6px !important; padding-bottom: 2px !important; }
+          .pagina-mapa h3 { font-size: 12px !important; margin-top: 8px !important; margin-bottom: 2px !important; }
+          .pagina-mapa p, .pagina-mapa li, .pagina-mapa td, .pagina-mapa th { font-size: 10.5px !important; line-height: 1.35 !important; }
+          .pagina-mapa table { margin: 4px 0 !important; }
+          .pagina-mapa td, .pagina-mapa th { padding: 2px 5px !important; }
+          .pagina-mapa ul { margin-top: 2px !important; }
+          .pagina-mapa .space-y-3 > * + *, .pagina-mapa .space-y-4 > * + *, .pagina-mapa .space-y-2 > * + *, .pagina-mapa .space-y-1 > * + * { margin-top: 4px !important; }
+          .pagina-mapa .text-6xl { font-size: 34px !important; }
+          .pagina-mapa .mt-6 { margin-top: 8px !important; }
+          .pagina-mapa .mb-3 { margin-bottom: 4px !important; }
+          .pagina-mapa .mb-2, .pagina-mapa .mt-4 { margin-top: 6px !important; margin-bottom: 3px !important; }
+          .pagina-mapa .mt-2, .pagina-mapa .mt-3 { margin-top: 4px !important; }
+          .pagina-capa { min-height: 0 !important; padding: 40px 0 !important; }
+          .pagina-capa h1 { font-size: 26px !important; margin-top: 0 !important; }
+          .pagina-capa .my-16 { margin: 24px 0 !important; font-size: 36px !important; }
+          .pagina-capa .text-2xl { font-size: 20px !important; }
+          .pagina-capa .mt-16 { margin-top: 24px !important; }
+          .grade-2col { display: grid !important; grid-template-columns: 1fr 1fr; gap: 2px 16px; }
         }
       `}</style>
     </div>
