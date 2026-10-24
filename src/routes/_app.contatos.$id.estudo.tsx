@@ -149,7 +149,7 @@ function Pagina({ children }: { children: React.ReactNode }) {
 
 function Capa({ nome, data }: { nome: string; data: string }) {
   return (
-    <section className="pagina-mapa text-center" style={{ minHeight: 420 }}>
+    <section className="pagina-mapa pagina-capa text-center" style={{ minHeight: 420 }}>
       <h1 className="text-4xl font-serif tracking-tight mt-12">Mapa Numerológico</h1>
       <div className="my-16 text-5xl">🌳</div>
       <p className="text-2xl font-medium">{nome}</p>
@@ -389,7 +389,7 @@ function MesesPessoais({ mapa }: { mapa: MapaNumerologico }) {
     <>
       <H2>Meses Pessoais — {mapa.anoRef}</H2>
       <p className="text-sm text-muted-foreground italic mb-3">Energia regente de cada mês deste ano.</p>
-      <div className="space-y-3 text-sm">
+      <div className="space-y-3 text-sm grade-2col">
         {mapa.meses.map((m) => (
           <div key={m.mes}><p className="font-medium">{m.mes} — Mês Pessoal {m.valor}</p><p>{txt(TEXTO_MES, m.valor)}</p></div>
         ))}
